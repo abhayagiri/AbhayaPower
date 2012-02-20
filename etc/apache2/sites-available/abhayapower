@@ -1,0 +1,28 @@
+Listen 8008
+<VirtualHost *:8008>
+	ServerAdmin webmaster@localhost
+
+	DocumentRoot /home/abhayapower/abhayapower/htdocs
+
+	AddHandler cgi-script .cgi .pl
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /home/abhayapower/abhayapower/htdocs/>
+		Options Indexes FollowSymLinks MultiViews
+		Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/access.log combined
+
+</VirtualHost>

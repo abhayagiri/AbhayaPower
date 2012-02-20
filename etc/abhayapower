@@ -1,0 +1,21 @@
+# The page title for the web interface
+WEBTITLE===AbhayaPower
+# The directory holding the web pages to be served by your web server
+HTDOCS===/opt/abhayapower/htdocs
+# The directory holding the data harvesting and manipulation scripts
+BINDIR===/opt/abhayapower/bin
+# The directory where the logs are saved to
+LOGDIR===/opt/abhayapower/log
+# The location of the LED Status log
+STATUSLOG===/opt/abhayapower/log/power_status
+# The directory holding the AbhayaPower perl modules
+MODDIR===/opt/abhayapower/module
+# The number of inverters tracked by the OutBack Mate
+INVNUM===2
+# Strings used to display information about calculation of status values
+STATUS_-3_TEXT===-3 = VVWEAK >  2  & RECENT < 2
+STATUS_-2_TEXT===-2 =  VWEAK >  2  & RECENT < 2
+STATUS_-1_TEXT===-1 =   WEAK >  2  & RECENT < 2
+STATUS_0_TEXT=== 0 = STRONG <  20 & RECENT < 2<br>(This is also the default status.)
+STATUS_1_TEXT=== 1 = STRING >= 20
+# END OF FILE

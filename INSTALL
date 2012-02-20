@@ -1,0 +1,93 @@
+AbhayaPower Installaion
+-----------------------
+
+To install everything you first need perl 5.8 or higher with these
+modules installed:
+	Device::SerialPort
+	Device::ParallelPort
+	Device::ParallelPort::drv::parport
+
+Everything else should be already included...	
+
+You also need a webserver (developed using apache2) that can run cgi scripts
+and cron (which should be on any unix like system).
+
+-----------------------
+
+When you uncompressed this archive you should have found it included these:
+	INSTALL		-This install reference file
+	bin		-Directory with scripts for data gathering and usage
+	etc		-Directory with a configuration file
+	htdocs		-Directory with documents to be served by a web server
+	log		-Directory with the data logs from the OutBack Mate
+	module		-Directory with local perl modules
+
+You can start by putting the file "etc/abhayapower" in the system's "/etc"
+directory as this is where all the other scripts expect to find it.
+
+Everything else can go in /opt/abhayapower/ (or anywhere else if you change the
+configuration file '/etc/abhayapower' you just moved in the last step)
+
+The following layout is the default setup:
+
+/etc/abhayapower
+/opt/abhayapower/bin/
+/opt/abhayapower/htdocs/
+/opt/abhayapower/log/
+/opt/abhayapower/module/
+
+-----------------------------
+
+Add a new user with the name "abhayapower" and set the user's home folder
+to "/opt/abhayapower". and run the command
+
+	chmod -r abhayapower:abhayapower /opt/abhayapower
+
+as superuser (root).  Then add the user abhayapower to the group that owns 
+the /dev/ttyS and /dev/ttyUSB devices (on ubuntu 10.8 this is the dialout group)
+and the group that owns /dev/lp devices (lp on ubuntu)
+
+-----------------------------
+
+To setup the timed scripts for data gathering the following entries should be
+added to crontab by typing "crontab -e" as the user abhayapower
+
+* * * * * /opt/abhayapower/bin/minutely-tasks.pl &> /dev/null
+0 * * * * /opt/abhayapower/bin/hourly-tasks.pl &> /dev/null
+
+This sets the mate-logger.pl script to collect data from the OutBack Mate every
+minute and for the hourly data to be calculated at the start of every hour.
+
+-----------------------------
+
+To start the daemon that turns the Parallel Port pins on and off for the LEDs to
+display the current status you need to run the status-daemon.pl script.  To have
+it run at startup put the following in a startup script (/etc/rc.local for
+example):
+
+/usr/bin/perl /opt/abhayapower/bin/status-calc.pl &
+/usr/bin/perl /opt/abhayapower/bin/status-daemon.pl &
+
+-----------------------------
+
+Lastly, to setup the server to serve the AbhayPower frontend:
+
+Edit the included file "etc/apache2/sites-available/abhayapower" to point
+to the directory you are storing the htdocs directory for this frontend
+
+copy the file into /etc/apache2/sites-available:
+sudo cp etc/apache2/sites-available/abhayapower /etc/apache2/sites-available/
+
+make a symbolic link to the file into /etc/apache2/sites-enabled
+sudo ln -s /etc/apache2/sites-avaiable/abhayapower /etc/apache2/sites-enabled/010-abhayapower
+
+run 'apache2ctl restart' and things should be up and running...
+
+--
+
+To stop Firefox from starting in offline mode type "about:config" in the
+address bar and toggle the "toolkit.networkmanager.disable" preference
+so that it is set to true
+
+Search for "browser.sessionstore.resume_from_crash" and toggle it to "false"
+to disable the restore from crash screen 
