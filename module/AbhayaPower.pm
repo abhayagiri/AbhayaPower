@@ -146,7 +146,14 @@ sub getHourLoad {
                 }
         }
 	$sum += $tmpSum;
-        if ($divisor == 0 && $vDiv == 0) { return '' };
+
+	### Changed by SVB ###
+	# Line below had && instead of ||, resulted in
+	# a division by zero, hourly data not being
+	# created, and status led going out of sync w/actual voltage
+        if ($divisor == 0 || $vDiv == 0) { return '' };
+	###################
+
         my $avgLoad = $sum/$divisor;
         my $avgACOutV = $vSum/$vDiv;
 	if ($unit eq "A") {

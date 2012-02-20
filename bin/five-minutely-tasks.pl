@@ -27,6 +27,4 @@ BEGIN {
 print("Sending XBee Data\n");
 system("$cfg{BINDIR}/data-tx.pl -xVHLS");
 system("$cfg{BINDIR}/data-tx.pl -xVHLS");
-
-print("Grabbing Mate Log\n");
-system("$cfg{BINDIR}/mate-logger.pl");
+system("$cfg{BINDIR}/data-tx.pl -xVHLS");
