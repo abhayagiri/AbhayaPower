@@ -25,8 +25,10 @@ BEGIN {
 
 # Here's the main part of the script
 print("Sending XBee Data\n");
+system("killall ping-listen.pl");
 system("$cfg{BINDIR}/data-tx.pl -xVHLS");
 system("$cfg{BINDIR}/data-tx.pl -xVHLS");
+system("$cfg{BINDIR}/ping-listen.pl &");
 
 print("Grabbing Mate Log\n");
 system("$cfg{BINDIR}/mate-logger.pl");
