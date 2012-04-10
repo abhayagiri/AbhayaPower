@@ -38,7 +38,7 @@ my $ret = "";
 while(1) {
 	sleep 1;
 	($count_in, $ret) = $ob->read(128);
-	if ($ret =~ /PING/) {
+	if ( $ret =~ /PT=PING/ && ($ret !~ /DST/ || $ret =~ /DST=SNA/)) {
 	    $ob->write("~XB=SNA,PT=PONG~");
 	    sleep 1;
 	    system("$cfg{BINDIR}/data-tx.pl -xVHLS");
